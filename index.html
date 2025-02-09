@@ -122,7 +122,7 @@
                 let winElementsShown = false;
                 let score = Number(sessionStorage.getItem("score")) || 0;
                 document.getElementById("restart").addEventListener("click", function() {
-                    score = 0;
+                    setScore(0);
                     matchHeartsToScore();
                     hideWinElements();
                 });
@@ -160,24 +160,20 @@
                     if (winElementsShown) {
                         document.getElementById("subtitle").style.display = "block";
                         document.getElementById("border").removeChild(congratsGif);
+                        winElementsShown = false;
                     }
                 }
                 function onHeartClick() {
                     const heartCells = heartContainer.children;
                     for (let i = 0; i < heartCells.length; i++) {
                         if (heartCells[i] === this) {
-                            score = i + 1;
+                            setScore(i + 1);
                             break;
                         }
                     }
                     if (score > document.getElementsByClassName("selected").length) {
                         successSound.currentTime = 0;
                         successSound.play();
-                        if (score === 10) {
-                            sessionStorage.setItem("score", 0);
-                        } else {
-                            sessionStorage.setItem("score", score);
-                        }
                         if (score === 10) {
                             setTimeout(function() {
                                 requestAnimationFrame(startConfetti);
@@ -192,6 +188,14 @@
                         hideWinElements();
                     }
                     matchHeartsToScore();
+                }
+                function setScore(value) {
+                    score = value;
+                    if (score === 10) {
+                        sessionStorage.setItem("score", 0);
+                    } else {
+                        sessionStorage.setItem("score", score);
+                    }
                 }
             });
             function startConfetti() {
