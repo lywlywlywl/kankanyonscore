@@ -122,7 +122,7 @@
                 const winSound = new Audio("ZapSplatWin.mp3");
                 const heartContainer = document.getElementById("heartContainer");
                 let winElementsShown = false;
-                let score = Number(sessionStorage.getItem("score")) || 0;
+                let score = Number(localStorage.getItem("score")) || 0;
                 document.getElementById("restart").addEventListener("click", function() {
                     setScore(0);
                     matchHeartsToScore();
@@ -194,9 +194,9 @@
                 function setScore(value) {
                     score = value;
                     if (score === 10) {
-                        sessionStorage.setItem("score", 0);
+                        localStorage.setItem("score", 0);
                     } else {
-                        sessionStorage.setItem("score", score);
+                        localStorage.setItem("score", score);
                     }
                 }
             });
