@@ -42,11 +42,16 @@
             #reset {
                 font-size: 15px;
                 padding: 10px;
+                border: none;
+                display: block;
                 background-color: rgb(249, 196, 51);
                 margin: 20px 0px;
                 width: fit-content;
                 margin: 0px auto 20px auto;
                 cursor: pointer;
+            }
+            #reset:disabled {
+                cursor: default;
             }
             #heartContainer {
                 display: inline-grid;
@@ -109,7 +114,7 @@
             <div id="border">
                 <div class="title">לוח הניקוד של כּאן קַניוֹן</div>
                 <div id="heartContainer"></div>
-                <div class="title" id="reset">↺ איפוס</div>
+                <button class="title" id="reset">↺ איפוס</button>
                 <div class="title" id="subtitle">לאחר כל משימה, לחצו על לב וזכו בנקודה</div>
                 <img id="congratsGif" src="congrats.gif">
             </div>
@@ -123,7 +128,8 @@
                 const heartContainer = document.getElementById("heartContainer");
                 let winElementsShown = false;
                 let score = Number(localStorage.getItem("score")) || 0;
-                document.getElementById("reset").addEventListener("click", function() {
+                const resetButton = document.getElementById("reset");
+                resetButton.addEventListener("click", function() {
                     setScore(0);
                     matchHeartsToScore();
                     hideWinElements();
@@ -177,7 +183,7 @@
                         successSound.currentTime = 0;
                         successSound.play();
                         if (score === 10) {
-                            
+                            resetButton.disabled = true;
                             setTimeout(function() {
                                 requestAnimationFrame(startConfetti);
                                 winSound.currentTime = 0;
@@ -185,6 +191,7 @@
                                 document.getElementById("subtitle").style.display = "none";
                                 document.getElementById("congratsGif").style.display = "inline";
                                 winElementsShown = true;
+                                resetButton.disabled = false;
                             }, 1000);
                         }
                     } else {
